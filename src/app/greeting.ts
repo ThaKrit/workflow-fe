@@ -18,8 +18,9 @@ greeting({
   function greeting(user: Greeting) {
     if (user.format == 'Table') {
       console.table(user);
-    } else {
-      console.log(`Hi, ${user.name} Yout old ${user.age} years old.`);
+    } else if(user.format == 'Default'){
+      console.log(`Hi !! :${user.name} 
+         Your old : ${user.age} years old.`);
     }
   }
   
