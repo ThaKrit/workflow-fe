@@ -4,7 +4,7 @@ greeting({
     format: 'Table',
   });
   greeting({
-    name: 'Alice',
+    name: 'Bob',
     age: 18,
     format: 'Default',
   });
