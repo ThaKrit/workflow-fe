@@ -37,6 +37,35 @@ interface Greeting {
   greeting({
     name: 'Cherline',
     age: 18,
-    format: 'asdfbh',
+    // format: 'asdfbh',
   });
   
+
+//   interface GreetingParams {
+//     name: string
+//     age: number
+//     format: PrintFormat
+//   }
+//   type PrintFormat = "Default" | "Table"
+  
+  
+//   // หลอก Compiler, TypeScript ว่ามี format
+//   function greeting(params: GreetingParams) {
+//     if (params.format === "Table") {
+//         console.table({
+//             name: params.name,
+//             age: params.age
+//         })
+//     }
+//     if (params.format === "Default") {
+//         return "Hi, " + params.name
+//     }
+//   }
+//   test("Display default", () => {
+//     const data = {
+//       name: "Alice",
+//       format: "Default"
+//     } as GreetingParams
+//     const result = greeting(data);
+//     expect(result).toEqual("Hi, Alice")
+//   }) 
