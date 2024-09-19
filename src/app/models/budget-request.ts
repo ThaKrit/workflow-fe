@@ -5,3 +5,9 @@ export interface BudgetRequest {
   quantity: number;
   status: "PENDING" | "APPROVED" | "REJECTED";
 }
+
+export interface UsersRequest {
+  id: number;
+  username: string;
+  password: string;
+}

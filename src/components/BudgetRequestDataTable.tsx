@@ -1,11 +1,9 @@
 
-// import { useState } from "react";
-// import { updateBudgetItem } from "@/app/services/budget-items";
 import { patchBudgetItem } from "@/app/services/budget-items";
 import { formatDecimal } from "../app/lib/format-decimal";
 import { BudgetRequest } from "../app/models/budget-request";
-// import { Pencil } from "lucide-react";
 import Link from 'next/link'
+import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 
 interface BudgetRequestDataTableProps {
@@ -13,18 +11,22 @@ interface BudgetRequestDataTableProps {
 }
 
 function BudgetRequestDataTable({ items }: BudgetRequestDataTableProps) {
-
-  const router = useRouter()
-
+const rount = useRouter();
   const handleClick = async (e,status,eId) => {
     const editData = await patchBudgetItem(eId.id, {
       title: eId.title,
       quantity: eId.quantity,
       amount: eId.amount,
       status: status
-      
-    });
-    // router.push("")
+    }
+  );
+  // alert("ADSF");
+  Swal.fire({
+    title: "Success!",
+    text: "Update Status : "+ " " + status + " " +"Complete !",
+    icon: "success"
+  });
+    rount.push("../reload")
     console.log("Update Status Success");
     // console.log(status)
     // console.log(eId.title)
@@ -136,6 +138,8 @@ function BudgetRequestDataTable({ items }: BudgetRequestDataTableProps) {
 
 export default BudgetRequestDataTable;
 
-function useNavigater() {
+
+function useNavigate() {
   throw new Error("Function not implemented.");
 }
+

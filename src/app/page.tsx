@@ -9,7 +9,6 @@ import { fetchLogin, fetchBudgetItems } from "./services/budget-items";
 import Link from 'next/link'
 
 
-// let nextId=3
 function Home() {
   
   const [budgetRequests, setBudgetRequests] = useState<BudgetRequest[]>([]);
@@ -17,46 +16,8 @@ function Home() {
   useEffect(() => {
     // fetchLogin();
     fetchBudgetItems().then((items) => setBudgetRequests(items));
+    fetchLogin().then((res) => console.log(res))
   }, []);
-
-  // const addRequest = async (newRequest: BudgetRequest) => {
-  //   const insertedRequest = await createBudgetItem({
-  //     title: newRequest.title,
-  //     quantity: newRequest.quantity,
-  //     price: newRequest.price,
-  //   });
-  //   setBudgetRequests([...budgetRequests, insertedRequest]);
-  // };
-  
-  // const [newRequest, setNewRequest] = useState<BudgetRequest>({
-  //   id: 0,
-  //   title: "",
-  //   price: 0,
-  //   quantity: 1,
-  //   status: "APPROVED",
-  // });
-
-  // const updateField = (event: ChangeEvent<HTMLInputElement>) => {
-  //   const value =
-  //     event.target.type === "number"
-  //       ? Number(event.target.value)
-  //       : event.target.value;
-  //   setNewRequest({
-  //     ...newRequest,
-  //     [event.target.name]: value,
-  //   });
-  // };
-
-  // const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   addRequest({
-  //     id: nextId++,
-  //     title: newRequest.title,
-  //     price: newRequest.price,
-  //     quantity: 1,
-  //     status: "APPROVED",
-  //   });
-  // };
 
   return (
     <div>
@@ -74,26 +35,6 @@ function Home() {
               </button> </Link>
         </div>
         
-         {/* <form onSubmit={handleSubmit}>
-          <div>
-            Title:
-            <input
-              name="title"
-              value={newRequest.title}
-              onChange={updateField}
-            />
-          </div>
-          <div>
-            Amount:
-            <input
-              name="price"
-              type="number"
-              value={newRequest.price}
-              onChange={updateField}
-            />
-          </div>
-          <button>Add</button>
-        </form>  */}
         <div className="mt-4">
           <BudgetRequestDataTable items={budgetRequests} />
         </div>

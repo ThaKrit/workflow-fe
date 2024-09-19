@@ -17,7 +17,7 @@ function Header() {
         </nav>
         <div className="text-sm">
           admin@test.com |{" "}
-          <Link href="/logout" className="text-blue-600 hover:underline">
+          <Link href="/login" className="text-blue-600 hover:underline">
             Logout
           </Link>
         </div>

@@ -40,7 +40,7 @@ function EditBudgetRequest({ searchParams }) {
     editBudget(chang);
     // console.log(data)
     console.log(chang)
-  //  router.push('../../')
+   router.push('../../')
   };
 
  

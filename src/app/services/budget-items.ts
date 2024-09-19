@@ -5,6 +5,7 @@ interface FetchBudgetItemsResponse {
   data: BudgetRequest[];
 }
 
+
 export const fetchLogin = async () => {
   const response = await api.post("/login", 
     {
