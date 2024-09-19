@@ -1,128 +1,105 @@
 "use client";
 
-import StateObject from "./components/StateObject";
-import TodoApp from "./components/TodoApp";
-// import StatePrimitive from "./components/StatePrimitive";
+import { useEffect, useState } from "react";
+import BudgetPanel from "@/components/BudgetPanel";
+import BudgetRequestDataTable from "../components/BudgetRequestDataTable";
+import Header from "@/components/Header";
+import { BudgetRequest } from "./models/budget-request";
+import { fetchLogin, fetchBudgetItems } from "./services/budget-items";
+import Link from 'next/link'
 
-// import ComponentProps from "@/components/ComponentProps";
 
-
+// let nextId=3
 function Home() {
-  // const task = {
-  //   title: "เบิกงบ",
-  //   amount: 20,
+  
+  const [budgetRequests, setBudgetRequests] = useState<BudgetRequest[]>([]);
+
+  useEffect(() => {
+    // fetchLogin();
+    fetchBudgetItems().then((items) => setBudgetRequests(items));
+  }, []);
+
+  // const addRequest = async (newRequest: BudgetRequest) => {
+  //   const insertedRequest = await createBudgetItem({
+  //     title: newRequest.title,
+  //     quantity: newRequest.quantity,
+  //     price: newRequest.price,
+  //   });
+  //   setBudgetRequests([...budgetRequests, insertedRequest]);
   // };
+  
+  // const [newRequest, setNewRequest] = useState<BudgetRequest>({
+  //   id: 0,
+  //   title: "",
+  //   price: 0,
+  //   quantity: 1,
+  //   status: "APPROVED",
+  // });
+
+  // const updateField = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const value =
+  //     event.target.type === "number"
+  //       ? Number(event.target.value)
+  //       : event.target.value;
+  //   setNewRequest({
+  //     ...newRequest,
+  //     [event.target.name]: value,
+  //   });
+  // };
+
+  // const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   addRequest({
+  //     id: nextId++,
+  //     title: newRequest.title,
+  //     price: newRequest.price,
+  //     quantity: 1,
+  //     status: "APPROVED",
+  //   });
+  // };
+
   return (
     <div>
-      {/* <StatePrimitive /> */}
-      <StateObject />
-      <TodoApp />
-      {/* <ListRender /> */}
-      {/* <TaskList /> */}
-      {/* <ComponentProps />  */}
-      {/* <ObjectRender title={task.title} amount={100} /> */}
-
-      {/* <EventProps /> */}
-      {/* <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Image
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Title
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Amount
-            </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <Body />
-      </table> */}
+      <Header />
+      <main className="container mx-auto">
+        <div className="mt-4">
+          <BudgetPanel items={budgetRequests} />
+        </div>
+        <div className="mt-4">
+        <Link href="/add"><button
+                type="submit"
+                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
+                Add items
+              </button> </Link>
+        </div>
+        
+         {/* <form onSubmit={handleSubmit}>
+          <div>
+            Title:
+            <input
+              name="title"
+              value={newRequest.title}
+              onChange={updateField}
+            />
+          </div>
+          <div>
+            Amount:
+            <input
+              name="price"
+              type="number"
+              value={newRequest.price}
+              onChange={updateField}
+            />
+          </div>
+          <button>Add</button>
+        </form>  */}
+        <div className="mt-4">
+          <BudgetRequestDataTable items={budgetRequests} />
+        </div>
+      </main>
     </div>
   );
 }
-
-// function Body() {
-//   return (
-//     <tbody className="bg-white divide-y divide-gray-200">
-//       <tr>
-//         <td className="px-6 py-4 whitespace-nowrap">
-//           <div style={{ height: 112, position: "relative" }}>
-//             <Image
-//               src="https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg"
-//               fill
-//               sizes="12vw"
-//               alt="Monitor"
-//               style={{ objectFit: "contain" }}
-//               priority
-//             />
-//           </div>
-//           <img
-//             src="https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg"
-//             alt="Monitor"
-//             className="max-w-full h-28 object-cover rounded"
-//           />
-//         </td>
-//         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-//           Monitor
-//         </td>
-//         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-//           $2500.00
-//         </td>
-//         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-//           <div className="flex space-x-2">
-//             <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-//               Approve
-//             </button>
-//             <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-//               Reject
-//             </button>
-//           </div>
-//         </td>
-//       </tr>
-//       <tr>
-//         <td className="px-6 py-4 whitespace-nowrap">
-//           <img
-//             src="https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_.jpg"
-//             alt="Hard Disk/SSD"
-//             className="max-w-full h-28 object-cover rounded"
-//           />
-//         </td>
-//         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-//           Hard Disk/SSD
-//         </td>
-//         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-//           $2000.75
-//         </td>
-//         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-//           <div className="flex space-x-2">
-//             <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-//               Approve
-//             </button>
-//             <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-//               Reject
-//             </button>
-//           </div>
-//         </td>
-//       </tr>
-//     </tbody>
-//   );
-// }
 
 export default Home;
