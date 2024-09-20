@@ -1,35 +1,35 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
-// import { useForm } from "react-hook-form";
-import Link from "next/link";
-import { useRouter } from 'next/navigation';
-// import { useEffect } from "react";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { BudgetRequest } from "../models/budget-request";
-import { createBudgetItem, fetchBudgetItems, fetchLogin } from "../services/budget-items";
-import { useForm } from "react-hook-form";
-interface BudgetRequestDataTableProps{
-    users: BudgetRequest[];
-}
 
+import Link from "next/link";
+import { FormEvent, useState } from "react";
+import { fetchLogin } from "../services/budget-items";
+import { useRouter } from "next/navigation";
 
 function login() {
- 
+  const router = useRouter();
+  
+  const [username, setUsername] = useState('');
+  const [pw, setPw] = useState('');
 
-    const[chkLog , setchkLog] = useState();
+  // useEffect(() => {
+  //   fetchLogin().then((res) => console.log("Username :" + res.username + "PassWord :" + res.password))
+  // }, []);
 
-  useEffect(() => {
-    // fetchLogin();
-    fetchLogin().then((res) => console.log("Username :"+ res.username + "PassWord :" + res.password))
-    
-  }, []);
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    fetchLogin({
+      username, password: pw,
+    }).then(() => router.push('../'))
+  };
 
   return (
-    
     <main className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto">
         <div className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-2xl font-bold mb-6">Please Sign In</h2>
-          <form className="space-y-4" >
+          <form onSubmit={handleSubmit} className="space-y-4" >
             <div>
               <label htmlFor="title" className="block text-lg font-medium ">
                 Username
@@ -37,20 +37,22 @@ function login() {
               <input
                 name="username"
                 className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                onChange={(e) => setUsername(e.target.value)}
               />
-             
+
             </div>
             <div>
               <label htmlFor="quantity" className="block text-lg font-medium ">
                 Password
               </label>
               <input
-              name="password"
-              type="password"
+                name="password"
+                type="password"
                 className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                onChange={(e) => setPw(e.target.value)}
               />
             </div>
-            
+
             <div className="flex space-x-2">
               <button
                 type="submit"
@@ -68,7 +70,7 @@ function login() {
           </form>
         </div>
       </div>
-      
+
     </main>
   );
 }

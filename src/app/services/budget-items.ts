@@ -1,20 +1,28 @@
 import { api } from "../lib/api";
-import { BudgetRequest } from "../models/budget-request";
+import { BudgetRequest, UsersRequest } from "../models/budget-request";
 
 interface FetchBudgetItemsResponse {
   data: BudgetRequest[];
 }
 
+interface FetchUserResponse {
+  data: UsersRequest[];
+}
 
-export const fetchLogin = async () => {
-  const response = await api.post("/login", 
-    {
-      "username": "admin",
-      "password": "secret"
-  }
-  );
+interface IUserLogin {
+  username: string;
+  password: string;
+}
+
+export const fetchLogin = async (body: IUserLogin) => {
+  const response = await api.post("/users/login", body);
   const { data } = response.data;
-  console.log(data); 
+  return data;
+};
+export const fetchLogined = async () => {
+  const response = await api.get<FetchUserResponse>("/users");
+  const { data } = response.data;
+  
   return data;
 };
 
@@ -30,7 +38,7 @@ interface CreateBudgetItemRequest {
   title: string;
   quantity: number;
   amount: number;
-  status?:string;
+  status?: string;
 }
 
 interface CreateBudgetItemResponse {
@@ -43,14 +51,26 @@ export const createBudgetItem = async (body: CreateBudgetItemRequest) => {
   return data;
 };
 
-export const updateBudgetItem = async (id: number, body: CreateBudgetItemRequest) => {
-  const response = await api.put<CreateBudgetItemResponse>(`/items/${id}`, body);
+export const updateBudgetItem = async (
+  id: number,
+  body: CreateBudgetItemRequest
+) => {
+  const response = await api.put<CreateBudgetItemResponse>(
+    `/items/${id}`,
+    body
+  );
   const { data } = response.data;
   return data;
 };
 
-export const patchBudgetItem = async (id: number, body: CreateBudgetItemRequest) => {
-  const response = await api.patch<CreateBudgetItemResponse>(`/items/${id}`, body);
+export const patchBudgetItem = async (
+  id: number,
+  body: CreateBudgetItemRequest
+) => {
+  const response = await api.patch<CreateBudgetItemResponse>(
+    `/items/${id}`,
+    body
+  );
   const { data } = response.data;
   return data;
 };

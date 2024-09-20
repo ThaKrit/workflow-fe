@@ -2,7 +2,6 @@
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { updateBudgetItem } from "../../services/budget-items";
-import { useState } from "react";
 import { BudgetRequest } from "@/app/models/budget-request";
 import { useRouter } from "next/navigation";
 
@@ -13,9 +12,9 @@ type FormData = {
 };
 
 function EditBudgetRequest({ searchParams }) {
-  const [title, setTitle] = useState('');
-  const [amount, setAmount] = useState('');
-  const [quantity, setQuantity] = useState('');
+  // const [title, setTitle] = useState('');
+  // const [amount, setAmount] = useState('');
+  // const [quantity, setQuantity] = useState('');
 
   const router = useRouter()
 
@@ -33,13 +32,13 @@ function EditBudgetRequest({ searchParams }) {
 
   const onSubmit = (data: FormData) => {
     const chang: BudgetRequest = {
-      title,
-      amount: Number(amount),
-      quantity: Number(quantity)
+      title:data.title,
+      amount: Number(data.amount),
+      quantity: Number(data.quantity)
     }
     editBudget(chang);
-    // console.log(data)
     console.log(chang)
+    // console.log(chang)
    router.push('../../')
   };
 
@@ -72,7 +71,7 @@ function EditBudgetRequest({ searchParams }) {
                 id="title"
                 {...register("title", { required: true, minLength: 3 })}
                 className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                onChange={(e) => setTitle(e.target.value)}
+                // onChange={(e) => setTitle(e.target.value)}
               />
               {errors.title && (
                 <p className="mt-1 text-sm text-red-600">
@@ -92,7 +91,7 @@ function EditBudgetRequest({ searchParams }) {
                 id="quantity"
                 {...register("quantity", { required: true, min: 1 })}
                 className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                onChange={(e) => setQuantity(e.target.value)}
+                // onChange={(e) => setQuantity(e.target.value)}
               />
               {errors.quantity && (
                 <p className="mt-1 text-sm text-red-600">
@@ -113,7 +112,7 @@ function EditBudgetRequest({ searchParams }) {
                 id="amount"
                 {...register("amount", { required: true, min: 1 })}
                 className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-                onChange={(e) => setAmount(e.target.value)}
+                // onChange={(e) => setAmount(e.target.value)}
               />
               {errors.amount && (
                 <p className="mt-1 text-sm text-red-600">

@@ -1,36 +1,35 @@
-
 import { patchBudgetItem } from "@/app/services/budget-items";
 import { formatDecimal } from "../app/lib/format-decimal";
 import { BudgetRequest } from "../app/models/budget-request";
-import Link from 'next/link'
+import Link from "next/link";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import { IBudgetItems } from "@/app/interfaces/budgetItem.interfaces";
 
 interface BudgetRequestDataTableProps {
   items: BudgetRequest[];
 }
 
 function BudgetRequestDataTable({ items }: BudgetRequestDataTableProps) {
-const rount = useRouter();
-  const handleClick = async (e,status,eId) => {
-    const editData = await patchBudgetItem(eId.id, {
+  const rount = useRouter();
+
+  const handleClick = async (id: number, status: string, eId: IBudgetItems) => {
+    await patchBudgetItem(id, {
       title: eId.title,
       quantity: eId.quantity,
       amount: eId.amount,
-      status: status
-    }
-  );
-  // alert("ADSF");
-  Swal.fire({
-    title: "Success!",
-    text: "Update Status : "+ " " + status + " " +"Complete !",
-    icon: "success"
-  });
-    rount.push("../reload")
+      status: status,
+    });
+    // alert("ADSF");
+    Swal.fire({
+      title: "Success!",
+      text: "Update Status : " + " " + status + " " + "Complete !",
+      icon: "success",
+    });
+    rount.push("../reload");
     console.log("Update Status Success");
     // console.log(status)
     // console.log(eId.title)
-    
   };
 
   return (
@@ -59,60 +58,57 @@ const rount = useRouter();
         {items.map((request) => (
           <tr key={request.id}>
             <td className="px-6 py-4 whitespace-nowrap">
-              <button className="text-gray-600 hover:text-blue-600">
-                <Link href={{
-                  pathname: "/edit/:id",
-                  query: {
-
-                    id: request.id,
-                    title: request.title,
-                    quantity: request.quantity,
-                    amount: request.amount,
-                    status:request.status
-                  },
-                }}>
-                  
+              
+                <Link
+                  href={{
+                    pathname: "/edit/:id",
+                    query: {
+                      id: request.id,
+                      title: request.title,
+                      quantity: request.quantity,
+                      amount: request.amount,
+                      status: request.status,
+                    },
+                  }}
+                >
                   <button
                     type="submit"
                     className="px-4 py-2 bg-yellow-600 
                           text-white rounded-md 
                             hover:bg-yellow-700 
                             focus:outline-none focus:ring-2 
-                            focus:ring-yellow-500 focus:ring-offset-2">
+                            focus:ring-yellow-500 focus:ring-offset-2"
+                  >
                     Edit
                   </button>
-                  
                 </Link>
-              </button>{" "}
-              
-                <button
-                  name="approved"
-                  type="submit"
-                  className="px-4 py-2 bg-green-600 
+              {" "}
+              <button
+                name="approved"
+                type="submit"
+                className="px-4 py-2 bg-green-600 
                           text-white rounded-md 
                             hover:bg-green-700 
                             focus:outline-none focus:ring-2 
                             focus:ring-green-500 focus:ring-offset-2"
-                  onClick={(e) => handleClick(e,"APPROVED",request)}
-                  >
-                  Approve 
-                </button>{" "}
-                <button
-                  name="rejected"
-                  type="submit"
-                  className="px-4 py-2 bg-red-600 
+                onClick={() => handleClick(request.id,"APPROVED", request)}
+              >
+                Approve
+              </button>{" "}
+              <button
+                name="rejected"
+                type="submit"
+                className="px-4 py-2 bg-red-600 
                           text-white rounded-md 
                             hover:bg-red-700 
                             focus:outline-none focus:ring-2 
                             focus:ring-red-500 focus:ring-offset-2"
-                  onClick={(e) => handleClick(e,"REJECTED",request)}          
-                  >
-                              
-                  Reject
-                </button>
-                
+                onClick={() => handleClick(request.id,"REJECTED", request)}
+              >
+                Reject
+              </button>
             </td>
-            
+
             <td className="px-6 py-4 whitespace-nowrap text-right">
               {request.id}
             </td>
@@ -123,23 +119,14 @@ const rount = useRouter();
             <td className="px-6 py-4 whitespace-nowrap text-right">
               {formatDecimal(request.amount)}
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-right">{" "}
+            <td className="px-6 py-4 whitespace-nowrap text-right">
               {request.status}
             </td>
-            
           </tr>
         ))}
       </tbody>
-      
     </table>
-    
   );
 }
 
 export default BudgetRequestDataTable;
-
-
-function useNavigate() {
-  throw new Error("Function not implemented.");
-}
-
